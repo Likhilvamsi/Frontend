@@ -24,7 +24,7 @@ class _ShopsPageState extends State<ShopsPage> {
   Future<void> fetchShops() async {
     try {
       final response = await http.get(
-        Uri.parse('http://127.0.0.1:8000/shops/'),
+        Uri.parse('http://40.67.147.171:8000/shops/'),
         headers: {'accept': 'application/json'},
       );
 
