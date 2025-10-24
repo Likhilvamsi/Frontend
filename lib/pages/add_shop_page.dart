@@ -39,7 +39,7 @@ class _AddShopPageState extends State<AddShopPage> {
     });
 
     final uri = Uri.parse(
-        "http://localhost:8000/create?owner_id=${widget.ownerId}");
+        "http://40.67.147.171:8000/create?owner_id=${widget.ownerId}");
 
     final body = {
       "shop_name": _shopNameController.text,
