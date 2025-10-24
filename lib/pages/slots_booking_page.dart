@@ -48,7 +48,7 @@ class _SlotsBookingPageState extends State<SlotsBookingPage> {
       slots = [];
     });
 
-    final url = 'http://127.0.0.1:8000/shops/${widget.shopId}/slots/?date=$date';
+    final url = 'http://40.67.147.171:8000/shops/${widget.shopId}/slots/?date=$date';
 
     try {
       final response = await http.get(Uri.parse(url));
@@ -109,7 +109,7 @@ class _SlotsBookingPageState extends State<SlotsBookingPage> {
 
     try {
       final response = await http.post(
-        Uri.parse("http://127.0.0.1:8000/shops/book-slots/"),
+        Uri.parse("http://40.67.147.171:8000/shops/book-slots/"),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode(body),
       );
