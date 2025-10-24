@@ -35,7 +35,7 @@ class _LoginPageState extends State<LoginPage> {
     setState(() => isLoading = true);
     try {
       final response = await http.post(
-        Uri.parse("http://127.0.0.1:8000/users/login"),
+        Uri.parse("http://40.67.147.171:8000/users/login"),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({
           "email": email,
@@ -104,7 +104,7 @@ class _LoginPageState extends State<LoginPage> {
     setState(() => isLoading = true);
     try {
       final response = await http.post(
-        Uri.parse("http://127.0.0.1:8000/users/register"),
+        Uri.parse("http://40.67.147.171:8000/users/register"),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({
           "username": username,
