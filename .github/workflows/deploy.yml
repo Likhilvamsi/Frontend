@@ -1,4 +1,4 @@
-name: Backend CI/CD
+name: Frontend CI/CD
 
 on:
   push:
@@ -6,34 +6,28 @@ on:
       - main
 
 jobs:
-  deploy:
+  build_and_deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
+    - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v5
+    - name: Install Flutter
+      uses: subosito/flutter-action@v2
       with:
-        python-version: "3.10"
+        flutter-version: '3.24.0'
 
-    - name: Install dependencies
+    - name: Build Flutter web
       run: |
-        python -m venv venv
-        source venv/bin/activate
-        pip install -r requirements.txt
+        flutter pub get
+        flutter build web
 
     - name: Deploy to Azure VM
-      uses: appleboy/ssh-action@v1.0.3
+      uses: appleboy/scp-action@v0.1.6
       with:
         host: ${{ secrets.AZURE_VM_IP }}
         username: ${{ secrets.AZURE_VM_USER }}
         key: ${{ secrets.AZURE_SSH_KEY }}
-        script: |
-          cd /var/www/backend
-          rm -rf *
-          git clone https://github.com/Likhilvamsi/BackEnd.git .
-          source venv/bin/activate || python3 -m venv venv && source venv/bin/activate
-          pip install -r requirements.txt
-          nohup python3 -m uvicorn main:app --host 0.0.0.0 --port 8000 &
+        source: "build/web/*"
+        target: "/var/www/frontend/"
