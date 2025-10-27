@@ -1,33 +1,44 @@
-name: Frontend CI/CD
+name: Build and Deploy Flutter Frontend
 
 on:
   push:
-    branches:
-      - main
+    branches: ["main"]
 
 jobs:
-  build_and_deploy:
+  build-deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-    - name: Install Flutter
-      uses: subosito/flutter-action@v2
-      with:
-        flutter-version: '3.35.7'
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.24.0"
 
-    - name: Build Flutter web
-      run: |
-        flutter pub get
-        flutter build web
+      - name: Install Dependencies
+        run: flutter pub get
 
-    - name: Deploy to Azure VM
-      uses: appleboy/scp-action@v0.1.6
-      with:
-        host: ${{ secrets.AZURE_VM_IP }}
-        username: ${{ secrets.AZURE_VM_USER }}
-        key: ${{ secrets.AZURE_SSH_KEY }}
-        source: "build/web/*"
-        target: "/var/www/frontend/"
+      - name: Build Flutter Web
+        run: flutter build web --release
+
+      - name: Deploy to VM via SSH
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "build/web/*"
+          target: "~/app/frontend/"
+
+      - name: Restart Nginx
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            sudo rm -rf /var/www/html/*
+            sudo cp -r ~/app/frontend/* /var/www/html/
+            sudo systemctl restart nginx
