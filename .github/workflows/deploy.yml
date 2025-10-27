@@ -1,0 +1,39 @@
+name: Backend CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.10"
+
+    - name: Install dependencies
+      run: |
+        python -m venv venv
+        source venv/bin/activate
+        pip install -r requirements.txt
+
+    - name: Deploy to Azure VM
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.AZURE_VM_IP }}
+        username: ${{ secrets.AZURE_VM_USER }}
+        key: ${{ secrets.AZURE_SSH_KEY }}
+        script: |
+          cd /var/www/backend
+          rm -rf *
+          git clone https://github.com/Likhilvamsi/BackEnd.git .
+          source venv/bin/activate || python3 -m venv venv && source venv/bin/activate
+          pip install -r requirements.txt
+          nohup python3 -m uvicorn main:app --host 0.0.0.0 --port 8000 &
