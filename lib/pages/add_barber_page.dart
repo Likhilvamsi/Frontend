@@ -29,7 +29,7 @@ class _AddBarberPageState extends State<AddBarberPage> {
   Future<void> fetchBarbers() async {
     try {
       final response = await http.get(
-        Uri.parse("http://40.67.147.171:8000/barbers/available/${widget.shopId}"),
+        Uri.parse("http://172.210.139.244:8000/barbers/available/${widget.shopId}"),
       );
       if (response.statusCode == 200) {
         setState(() {
@@ -54,7 +54,7 @@ class _AddBarberPageState extends State<AddBarberPage> {
 
     try {
       final response = await http.post(
-        Uri.parse("http://40.67.147.171:8000/barbers/add/${widget.shopId}"),
+        Uri.parse("http://172.210.139.244:8000/barbers/add/${widget.shopId}"),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({
           "barber_name": barberNameController.text.trim(),
@@ -241,7 +241,7 @@ class _AddBarberPageState extends State<AddBarberPage> {
                       try {
                         final response = await http.put(
                           Uri.parse(
-                            "http://40.67.147.171:8000/barbers/update/${barber["barber_id"]}?owner_id=${widget.ownerId}",
+                            "http://172.210.139.244:8000/barbers/update/${barber["barber_id"]}?owner_id=${widget.ownerId}",
                           ),
                           headers: {"Content-Type": "application/json"},
                           body: jsonEncode({
