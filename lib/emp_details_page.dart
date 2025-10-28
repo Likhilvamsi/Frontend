@@ -20,7 +20,7 @@ class _EmpDetailsPageState extends State<EmpDetailsPage> {
 
   Future<void> fetchEmpData() async {
     var url = Uri.parse(
-        'http://127.0.0.1:8000/auth/employee/details?email=${Uri.encodeComponent(widget.email)}');
+        'http://172.210.139.244:8000/auth/employee/details?email=${Uri.encodeComponent(widget.email)}');
     var response = await http.get(url);
 
     if (response.statusCode == 200) {
