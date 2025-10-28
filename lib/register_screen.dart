@@ -32,7 +32,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
 
     try {
-      var url = Uri.parse("http://127.0.0.1:8000/auth/send-verification-otp");
+      var url = Uri.parse("http://172.210.139.244:8000/auth/send-verification-otp");
       var response = await http.post(
         url,
         headers: {"Content-Type": "application/json"},
@@ -59,7 +59,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   /// Verify OTP
   Future<void> verifyOtp() async {
     try {
-      var url = Uri.parse("http://127.0.0.1:8000/auth/verify-email");
+      var url = Uri.parse("http://172.210.139.244:8000/auth/verify-email");
       var response = await http.post(
         url,
         headers: {"Content-Type": "application/json"},
@@ -98,7 +98,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     setState(() => isLoading = true);
 
     try {
-      var url = Uri.parse('http://127.0.0.1:8000/auth/register');
+      var url = Uri.parse('http://172.210.139.244:8000/auth/register');
       var response = await http.post(
         url,
         headers: {"Content-Type": "application/json"},
