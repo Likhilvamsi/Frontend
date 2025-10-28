@@ -17,7 +17,7 @@ class _SlotBookingPageState extends State<SlotBookingPage> {
 
   Future<void> fetchSlots(DateTime date) async {
     final url =
-        Uri.parse("http://127.0.0.1:8000/barber/slots/?date=${date.toIso8601String().split('T')[0]}");
+        Uri.parse("http://172.210.139.244:8000/barber/slots/?date=${date.toIso8601String().split('T')[0]}");
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
@@ -42,7 +42,7 @@ class _SlotBookingPageState extends State<SlotBookingPage> {
   }
 
   Future<void> confirmBooking() async {
-  final url = Uri.parse("http://127.0.0.1:8000/booking/book-slots/");
+  final url = Uri.parse("http://172.210.139.244:8000/booking/book-slots/");
   final body = {
     "user_id": 1, // static
     "barber_id": 5, // static
