@@ -27,7 +27,7 @@ class _OwnerPageState extends State<OwnerPage> {
 
     try {
       final response = await http.get(
-        Uri.parse("http://40.67.147.171:8000/owner/${widget.ownerId}"),
+        Uri.parse("http://172.210.139.244:8000/owner/${widget.ownerId}"),
       );
 
       if (response.statusCode == 200) {
